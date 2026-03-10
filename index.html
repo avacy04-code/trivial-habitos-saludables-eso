@@ -1,34 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <title>Misión Saludable</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <h1>🏃 Misión Saludable</h1>
 
-<div id="marcador">
-Puntos: <span id="puntos">0</span>
-Tiempo: <span id="tiempo">10</span>
+<!-- selección de equipos -->
+
+<div id="equipos">
+
+<h2>Selecciona equipo</h2>
+
+<div class="equipo" onclick="seleccionarEquipo(0)">
+<img src="imagenes/avatar1.png">
+<p>Dragón</p>
 </div>
 
+<div class="equipo" onclick="seleccionarEquipo(1)">
+<img src="imagenes/avatar2.png">
+<p>Tigre</p>
+</div>
+
+<div class="equipo" onclick="seleccionarEquipo(2)">
+<img src="imagenes/avatar3.png">
+<p>Águila</p>
+</div>
+
+<div class="equipo" onclick="seleccionarEquipo(3)">
+<img src="imagenes/avatar4.png">
+<p>Tiburón</p>
+</div>
+
+</div>
+
+<!-- marcador -->
+
+<div id="marcador">
+
+Puntos: <span id="puntos">0</span>
+
+</div>
+
+<!-- temporizador -->
+
+<div id="timerBar">
+<div id="timer"></div>
+</div>
+
+<!-- pregunta -->
+
 <div id="pregunta"></div>
+
+<!-- respuestas -->
 
 <div class="respuestas">
 
 <button class="rojo" onclick="responder(0)" id="r0"></button>
+
 <button class="azul" onclick="responder(1)" id="r1"></button>
+
 <button class="amarillo" onclick="responder(2)" id="r2"></button>
+
 <button class="verde" onclick="responder(3)" id="r3"></button>
 
 </div>
 
+<!-- ruleta -->
+
+<button onclick="girarRuleta()">🎡 Girar ruleta de reto</button>
+
 <div id="reto"></div>
 
+<!-- ranking -->
+
+<div id="ranking"></div>
+
+<!-- insignias -->
+
+<div id="insignias"></div>
+
 <script src="script.js"></script>
+<script src="ruleta.js"></script>
+<script src="sonidos.js"></script>
+<script src="equipos.js"></script>
 
 </body>
+
 </html>
