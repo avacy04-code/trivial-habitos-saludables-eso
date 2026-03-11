@@ -1,23 +1,7 @@
-let sonidoCorrecto=new Audio("sonidos/correcto.mp3")
+let correcto=new Audio("sonidos/correcto.mp3")
+let incorrecto=new Audio("sonidos/incorrecto.mp3")
+let ruletaSound=new Audio("sonidos/ruleta.mp3")
+let victoria=new Audio("sonidos/victoria.mp3")
 
-let sonidoIncorrecto=new Audio("sonidos/incorrecto.mp3")
-
-let sonidoReto=new Audio("sonidos/reto.mp3")
-
-function sonidoAcierto(){
-
-sonidoCorrecto.play()
-
-}
-
-function sonidoError(){
-
-sonidoIncorrecto.play()
-
-}
-
-function sonidoRetoActivo(){
-
-sonidoReto.play()
-
-}
+function sonidoAcierto(){correcto.play()}
+function sonidoError(){incorrecto.play()}
