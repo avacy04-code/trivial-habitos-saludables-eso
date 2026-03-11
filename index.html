@@ -9,11 +9,9 @@
 
 <body>
 
-<h1>🏃 Misión Saludable</h1>
+<h1>🏃 MISIÓN SALUDABLE</h1>
 
 <div id="equipos">
-
-<h2>Selecciona equipo</h2>
 
 <div class="equipo" onclick="seleccionarEquipo(0)">
 <img src="imagenes/avatar1.png">
@@ -56,7 +54,16 @@ Puntos: <span id="puntos">0</span>
 
 </div>
 
-<button onclick="girarRuleta()">🎡 Girar ruleta</button>
+<h2>🎡 Ruleta de retos</h2>
+
+<div id="ruletaContainer">
+
+<div id="flecha">▼</div>
+<div id="ruleta"></div>
+
+</div>
+
+<button onclick="girarRuleta()">GIRAR</button>
 
 <div id="reto"></div>
 
@@ -64,45 +71,10 @@ Puntos: <span id="puntos">0</span>
 
 <div id="insignias"></div>
 
+<script src="datos.js"></script>
 <script src="script.js"></script>
 <script src="ruleta.js"></script>
-<script src="equipos.js"></script>
 <script src="sonidos.js"></script>
 
 </body>
 </html>
-
-<div id="ruletaContainer">
-
-<img id="ruleta" src="imagenes/ruleta.png">
-
-<button onclick="girarRuleta()">GIRAR</button>
-
-</div>
-
-<div id="reto"></div>
-
-<h2>🎡 Ruleta de retos</h2>
-
-<div id="ruletaContainer">
-
-<div id="flecha">▼</div>
-
-<div id="ruleta">
-
-<div class="sector">Burpees</div>
-<div class="sector">Sentadillas</div>
-<div class="sector">Plancha</div>
-<div class="sector">Jumping</div>
-<div class="sector">Equilibrio</div>
-<div class="sector">Carrera</div>
-<div class="sector">Flexiones</div>
-<div class="sector">Comba</div>
-
-</div>
-
-</div>
-
-<button onclick="girarRuleta()">GIRAR</button>
-
-<div id="reto"></div>
