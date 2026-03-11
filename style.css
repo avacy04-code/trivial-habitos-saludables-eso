@@ -1,33 +1,16 @@
 body{
 
 font-family:Arial;
-background:#1e1e1e;
+background:#46178f;
 color:white;
 text-align:center;
 
 }
 
-#equipos{
-
-display:flex;
-justify-content:center;
-gap:30px;
-margin:20px;
-
-}
-
-.equipo img{
-
-width:80px;
-border-radius:50%;
-cursor:pointer;
-
-}
-
 #pregunta{
 
-font-size:28px;
-margin:30px;
+font-size:40px;
+margin:40px;
 
 }
 
@@ -35,7 +18,7 @@ margin:30px;
 
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:15px;
+gap:20px;
 width:70%;
 margin:auto;
 
@@ -43,88 +26,40 @@ margin:auto;
 
 button{
 
-padding:20px;
-font-size:18px;
+height:120px;
+font-size:26px;
 border:none;
 border-radius:10px;
 cursor:pointer;
+color:white;
 
 }
 
-.rojo{background:#e53935;color:white}
-.azul{background:#1e88e5;color:white}
-.amarillo{background:#fdd835;color:black}
-.verde{background:#43a047;color:white}
+.rojo{background:#e21b3c}
+.azul{background:#1368ce}
+.amarillo{background:#d89e00}
+.verde{background:#26890c}
 
-#timerBar{
+#timerCircle{
 
-width:70%;
-height:20px;
-background:#555;
-margin:auto;
-border-radius:10px;
-
-}
-
-#timer{
-
-height:20px;
-width:100%;
-background:#00e676;
-
-}
-
-#ruletaContainer{
-
-position:relative;
-width:300px;
-height:300px;
-margin:auto;
-
-}
-
-#ruleta{
-
-width:300px;
-height:300px;
+width:100px;
+height:100px;
 border-radius:50%;
-border:8px solid white;
-transition: transform 4s cubic-bezier(.17,.67,.83,.67);
-
-background:
-conic-gradient(
-#ff5252 0deg 45deg,
-#42a5f5 45deg 90deg,
-#ffee58 90deg 135deg,
-#66bb6a 135deg 180deg,
-#ff7043 180deg 225deg,
-#ab47bc 225deg 270deg,
-#26c6da 270deg 315deg,
-#ffa726 315deg 360deg
-);
-
-}
-
-#flecha{
-
-position:absolute;
-top:-20px;
-left:50%;
-transform:translateX(-50%);
-font-size:40px;
+background:white;
+color:black;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+margin:auto;
 
 }
 
 #ranking{
 
-margin-top:20px;
+position:absolute;
+right:20px;
+top:100px;
 font-size:20px;
-
-}
-
-#insignias{
-
-margin-top:20px;
-color:#ffd54f;
 
 }
