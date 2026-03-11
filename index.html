@@ -4,16 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Misión Saludable</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <h1>🏃 Misión Saludable</h1>
-
-<!-- selección de equipos -->
 
 <div id="equipos">
 
@@ -41,57 +37,37 @@
 
 </div>
 
-<!-- marcador -->
-
 <div id="marcador">
-
 Puntos: <span id="puntos">0</span>
-
 </div>
-
-<!-- temporizador -->
 
 <div id="timerBar">
 <div id="timer"></div>
 </div>
 
-<!-- pregunta -->
-
 <div id="pregunta"></div>
-
-<!-- respuestas -->
 
 <div class="respuestas">
 
 <button class="rojo" onclick="responder(0)" id="r0"></button>
-
 <button class="azul" onclick="responder(1)" id="r1"></button>
-
 <button class="amarillo" onclick="responder(2)" id="r2"></button>
-
 <button class="verde" onclick="responder(3)" id="r3"></button>
 
 </div>
 
-<!-- ruleta -->
-
-<button onclick="girarRuleta()">🎡 Girar ruleta de reto</button>
+<button onclick="girarRuleta()">🎡 Girar ruleta</button>
 
 <div id="reto"></div>
 
-<!-- ranking -->
-
 <div id="ranking"></div>
-
-<!-- insignias -->
 
 <div id="insignias"></div>
 
 <script src="script.js"></script>
 <script src="ruleta.js"></script>
-<script src="sonidos.js"></script>
 <script src="equipos.js"></script>
+<script src="sonidos.js"></script>
 
 </body>
-
 </html>
