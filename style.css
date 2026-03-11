@@ -67,3 +67,60 @@ font-size:18px;
 margin-top:20px;
 color:#ffd54f;
 }
+
+#ruletaContainer{
+
+position:relative;
+width:300px;
+height:300px;
+margin:auto;
+
+}
+
+#ruleta{
+
+width:300px;
+height:300px;
+border-radius:50%;
+border:8px solid white;
+position:relative;
+transition: transform 4s cubic-bezier(.17,.67,.83,.67);
+background:
+conic-gradient(
+#ff5252 0deg 45deg,
+#42a5f5 45deg 90deg,
+#ffee58 90deg 135deg,
+#66bb6a 135deg 180deg,
+#ff7043 180deg 225deg,
+#ab47bc 225deg 270deg,
+#26c6da 270deg 315deg,
+#ffa726 315deg 360deg
+);
+
+}
+
+#flecha{
+
+position:absolute;
+top:-20px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+color:white;
+z-index:10;
+
+}
+
+.sector{
+
+display:none;
+
+}
+
+#reto{
+
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+
+}
