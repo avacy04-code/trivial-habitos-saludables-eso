@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
-<title>Misión Saludable</title>
+<title>Juego Trivia Saludable</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>🏃 MISIÓN SALUDABLE</h1>
+<h1>🎮 Trivia Saludable</h1>
 
-<div id="pregunta"></div>
+<div id="ranking"></div>
+
+<h2 id="categoria"></h2>
+
+<button onclick="girarRuleta()">🎡 Girar ruleta</button>
+
+<div id="mision"></div>
+<button onclick="mostrarMision()">🎯 Nueva misión</button>
 
 <div id="timerCircle">
 <span id="tiempo">10</span>
 </div>
 
+<div id="pregunta"></div>
+
 <div class="respuestas">
 
-<button class="rojo" onclick="responder(0)" id="r0"></button>
-<button class="azul" onclick="responder(1)" id="r1"></button>
-<button class="amarillo" onclick="responder(2)" id="r2"></button>
-<button class="verde" onclick="responder(3)" id="r3"></button>
+<button id="r0" class="rojo" onclick="responder(0)"></button>
+<button id="r1" class="azul" onclick="responder(1)"></button>
+<button id="r2" class="amarillo" onclick="responder(2)"></button>
+<button id="r3" class="verde" onclick="responder(3)"></button>
 
 </div>
 
-<div id="ranking"></div>
+<h2>Puntos: <span id="puntos">0</span></h2>
 
-<div id="reto"></div>
+<div id="insignias"></div>
 
-<button onclick="girarRuleta()">🎡 RETO FÍSICO</button>
-
-<script src="datos.js"></script>
+<script src="preguntas.js"></script>
+<script src="sonidos.js"></script>
 <script src="script.js"></script>
-<script src="ruleta.js"></script>
 
 </body>
 </html>
