@@ -1,16 +1,41 @@
-let correcto = new Audio("sonidos/correcto.mp3")
-let incorrecto = new Audio("sonidos/incorrecto.mp3")
-let ruletaSound = new Audio("sonidos/ruleta.mp3")
-let victoria = new Audio("sonidos/victoria.mp3")
+function beep(frecuencia, duracion) {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
 
-function sonidoAcierto(){
-correcto.play()
+    const contexto = new AudioContextClass();
+    const oscilador = contexto.createOscillator();
+    const ganancia = contexto.createGain();
+
+    oscilador.type = "sine";
+    oscilador.frequency.value = frecuencia;
+    oscilador.connect(ganancia);
+    ganancia.connect(contexto.destination);
+
+    ganancia.gain.setValueAtTime(0.08, contexto.currentTime);
+    oscilador.start();
+
+    setTimeout(() => {
+      oscilador.stop();
+      contexto.close();
+    }, duracion);
+  } catch (error) {
+    console.log("Audio no disponible");
+  }
 }
 
-function sonidoError(){
-incorrecto.play()
+function sonidoAcierto() {
+  beep(700, 180);
 }
 
-function sonidoVictoria(){
-victoria.play()
+function sonidoError() {
+  beep(250, 250);
+}
+
+function sonidoReto() {
+  beep(500, 200);
+}
+
+function sonidoVictoria() {
+  beep(900, 350);
 }
