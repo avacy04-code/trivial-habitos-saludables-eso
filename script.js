@@ -1,14 +1,6 @@
 let equipos = [];
-let rondaActual = 1;
 let tiempoTotalRestante = TIEMPO_TOTAL_SEGUNDOS;
 let temporizadorTotal = null;
-let temporizadorPregunta = null;
-let tiempoPreguntaRestante = TIEMPO_POR_PREGUNTA;
-
-let retoActual = "";
-let preguntaActual = null;
-let indiceRespuestaSeleccionada = null;
-let preguntasUsadas = [];
 let partidaIniciada = false;
 
 function generarCamposEquipos() {
@@ -37,232 +29,80 @@ function iniciarPartida() {
 
   for (let i = 1; i <= numero; i++) {
     const nombre = document.getElementById(`nombreEquipo${i}`)?.value.trim() || `Equipo ${i}`;
-    equipos.push({ nombre, puntos: 0 });
+
+    equipos.push({
+      id: i,
+      nombre,
+      puntos: 0,
+      ronda: 1,
+      fase: "reto",
+      tiempoPregunta: TIEMPO_POR_PREGUNTA,
+      retoActual: "",
+      preguntaActual: null,
+      respuestaBloqueada: true,
+      temporizadorPregunta: null,
+      retoUsados: [],
+      preguntasUsadas: [],
+      finalizado: false,
+      mensaje: "Preparado"
+    });
   }
 
-  rondaActual = 1;
-  tiempoTotalRestante = TIEMPO_TOTAL_SEGUNDOS;
-  preguntasUsadas = [];
-  retoActual = "";
-  preguntaActual = null;
-  indiceRespuestaSeleccionada = null;
   partidaIniciada = true;
+  tiempoTotalRestante = TIEMPO_TOTAL_SEGUNDOS;
 
   document.getElementById("panelInicio").classList.add("oculto");
   document.getElementById("panelJuego").classList.remove("oculto");
   document.getElementById("panelFinal").classList.add("oculto");
-  document.getElementById("totalRondas").innerText = TOTAL_RONDAS;
 
-  actualizarTiempoTotalUI();
-  actualizarRanking();
-  actualizarDetallePuntos();
+  document.getElementById("maxRondasTexto").innerText = TOTAL_RONDAS;
+  document.getElementById("totalEquiposTexto").innerText = equipos.length;
+
   iniciarTemporizadorTotal();
-  comenzarRonda();
+  iniciarEquipos();
+  renderTodo();
 }
 
-function comenzarRonda() {
-  if (!partidaIniciada) return;
-
-  if (rondaActual > TOTAL_RONDAS) {
-    finalizarPartida();
-    return;
-  }
-
-  document.getElementById("rondaActual").innerText = rondaActual;
-  document.getElementById("faseActual").innerText = "Reto";
-
-  document.getElementById("retoBox").classList.remove("oculto");
-  document.getElementById("preguntaBox").classList.add("oculto");
-
-  mostrarMensaje(`Ronda ${rondaActual}. Todos los equipos realizan el reto.`);
-  mostrarReto();
-}
-
-function mostrarReto() {
-  retoActual = obtenerRetoAleatorio();
-  document.getElementById("retoTexto").innerText = retoActual;
-  renderChecksReto();
-
-  if (typeof sonidoReto === "function") {
-    sonidoReto();
-  }
-}
-
-function renderChecksReto() {
-  const contenedor = document.getElementById("listaEquiposReto");
-  contenedor.innerHTML = "";
-
-  equipos.forEach((equipo, index) => {
-    const item = document.createElement("label");
-    item.className = "item-check";
-
-    item.innerHTML = `
-      <input type="checkbox" id="retoEquipo${index}">
-      <span>${equipo.nombre} (+${PUNTOS_RETO} pts)</span>
-    `;
-
-    contenedor.appendChild(item);
+function iniciarEquipos() {
+  equipos.forEach((equipo) => {
+    asignarNuevoReto(equipo);
   });
 }
 
-function corregirReto() {
-  equipos.forEach((equipo, index) => {
-    const check = document.getElementById(`retoEquipo${index}`);
-    if (check && check.checked) {
-      equipo.puntos += PUNTOS_RETO;
-    }
-  });
-
-  actualizarRanking();
-  actualizarDetallePuntos();
-  comenzarPregunta();
+function asignarNuevoReto(equipo) {
+  equipo.fase = "reto";
+  equipo.retoActual = obtenerElementoUnico(retos, equipo.retoUsados);
+  equipo.preguntaActual = null;
+  equipo.respuestaBloqueada = true;
+  equipo.tiempoPregunta = TIEMPO_POR_PREGUNTA;
+  equipo.mensaje = "Realiza el reto y pulsa “Reto superado”";
 }
 
-function comenzarPregunta() {
-  document.getElementById("faseActual").innerText = "Pregunta";
-  document.getElementById("retoBox").classList.add("oculto");
-  document.getElementById("preguntaBox").classList.remove("oculto");
-  document.getElementById("respuestaCorrectaBox").classList.add("oculto");
-
-  mostrarMensaje(`Todos los equipos responden la misma pregunta.`);
-  mostrarPregunta();
+function asignarNuevaPregunta(equipo) {
+  equipo.fase = "pregunta";
+  equipo.preguntaActual = obtenerElementoUnico(preguntas, equipo.preguntasUsadas);
+  equipo.respuestaBloqueada = false;
+  equipo.tiempoPregunta = TIEMPO_POR_PREGUNTA;
+  equipo.mensaje = "Responde antes de que se acabe el tiempo";
+  iniciarTemporizadorPregunta(equipo.id);
 }
 
-function obtenerPreguntaNoUsada() {
-  if (preguntasUsadas.length >= preguntas.length) {
-    preguntasUsadas = [];
+function obtenerElementoUnico(lista, usados) {
+  const disponibles = lista.filter((_, i) => !usados.includes(i));
+  const pool = disponibles.length ? disponibles : lista;
+  const elemento = pool[Math.floor(Math.random() * pool.length)];
+  const indiceReal = lista.findIndex((x) => JSON.stringify(x) === JSON.stringify(elemento));
+
+  if (!usados.includes(indiceReal)) {
+    usados.push(indiceReal);
   }
 
-  const disponibles = preguntas.filter((_, i) => !preguntasUsadas.includes(i));
-  const preguntaElegida = disponibles[Math.floor(Math.random() * disponibles.length)];
-
-  const indiceReal = preguntas.findIndex(
-    p =>
-      p.pregunta === preguntaElegida.pregunta &&
-      JSON.stringify(p.respuestas) === JSON.stringify(preguntaElegida.respuestas)
-  );
-
-  preguntasUsadas.push(indiceReal);
-  return preguntaElegida;
-}
-
-function mostrarPregunta() {
-  preguntaActual = obtenerPreguntaNoUsada();
-  indiceRespuestaSeleccionada = null;
-
-  document.getElementById("pregunta").innerText = preguntaActual.pregunta;
-
-  for (let i = 0; i < 4; i++) {
-    const boton = document.getElementById(`r${i}`);
-    boton.innerText = preguntaActual.respuestas[i];
-    boton.disabled = false;
-    boton.classList.remove("correcta", "incorrecta");
-  }
-
-  document.getElementById("listaEquiposPregunta").innerHTML = "";
-  iniciarTemporizadorPregunta();
-}
-
-function iniciarTemporizadorPregunta() {
-  clearInterval(temporizadorPregunta);
-  tiempoPreguntaRestante = TIEMPO_POR_PREGUNTA;
-  document.getElementById("tiempoPregunta").innerText = tiempoPreguntaRestante;
-
-  temporizadorPregunta = setInterval(() => {
-    tiempoPreguntaRestante--;
-    document.getElementById("tiempoPregunta").innerText = tiempoPreguntaRestante;
-
-    if (tiempoPreguntaRestante <= 0) {
-      clearInterval(temporizadorPregunta);
-      finalizarTiempoPregunta();
-    }
-  }, 1000);
-}
-
-function seleccionarRespuesta(indice) {
-  indiceRespuestaSeleccionada = indice;
-
-  for (let i = 0; i < 4; i++) {
-    const boton = document.getElementById(`r${i}`);
-    boton.classList.remove("correcta", "incorrecta");
-  }
-
-  document.getElementById(`r${indice}`).classList.add("correcta");
-}
-
-function finalizarTiempoPregunta() {
-  bloquearRespuestas();
-
-  const correcta = preguntaActual.correcta;
-  document.getElementById(`r${correcta}`).classList.add("correcta");
-
-  if (
-    indiceRespuestaSeleccionada !== null &&
-    indiceRespuestaSeleccionada !== correcta
-  ) {
-    document.getElementById(`r${indiceRespuestaSeleccionada}`).classList.add("incorrecta");
-  }
-
-  document.getElementById("respuestaCorrectaBox").classList.remove("oculto");
-  document.getElementById("respuestaCorrectaBox").innerText =
-    `Respuesta correcta: ${preguntaActual.respuestas[correcta]}`;
-
-  renderChecksPregunta();
-
-  mostrarMensaje("Marca ahora qué equipos han acertado.");
-}
-
-function bloquearRespuestas() {
-  for (let i = 0; i < 4; i++) {
-    document.getElementById(`r${i}`).disabled = true;
-  }
-}
-
-function renderChecksPregunta() {
-  const contenedor = document.getElementById("listaEquiposPregunta");
-  contenedor.innerHTML = "";
-
-  equipos.forEach((equipo, index) => {
-    const item = document.createElement("label");
-    item.className = "item-check";
-
-    item.innerHTML = `
-      <input type="checkbox" id="preguntaEquipo${index}">
-      <span>${equipo.nombre} (+${PUNTOS_PREGUNTA} pts)</span>
-    `;
-
-    contenedor.appendChild(item);
-  });
-}
-
-function corregirPregunta() {
-  if (!preguntaActual) return;
-
-  equipos.forEach((equipo, index) => {
-    const check = document.getElementById(`preguntaEquipo${index}`);
-    if (check && check.checked) {
-      equipo.puntos += PUNTOS_PREGUNTA;
-    }
-  });
-
-  actualizarRanking();
-  actualizarDetallePuntos();
-
-  if (typeof sonidoAcierto === "function") {
-    sonidoAcierto();
-  }
-
-  rondaActual++;
-
-  if (rondaActual > TOTAL_RONDAS) {
-    finalizarPartida();
-  } else {
-    comenzarRonda();
-  }
+  return elemento;
 }
 
 function iniciarTemporizadorTotal() {
   clearInterval(temporizadorTotal);
+  actualizarTiempoTotalUI();
 
   temporizadorTotal = setInterval(() => {
     tiempoTotalRestante--;
@@ -276,39 +116,218 @@ function iniciarTemporizadorTotal() {
 }
 
 function actualizarTiempoTotalUI() {
-  const minutos = Math.floor(tiempoTotalRestante / 60);
-  const segundos = tiempoTotalRestante % 60;
+  const min = Math.floor(tiempoTotalRestante / 60);
+  const seg = tiempoTotalRestante % 60;
   document.getElementById("tiempoTotal").innerText =
-    String(minutos).padStart(2, "0") + ":" + String(segundos).padStart(2, "0");
+    String(min).padStart(2, "0") + ":" + String(seg).padStart(2, "0");
+}
+
+function iniciarTemporizadorPregunta(equipoId) {
+  const equipo = equipos.find(e => e.id === equipoId);
+  if (!equipo || equipo.finalizado) return;
+
+  clearInterval(equipo.temporizadorPregunta);
+
+  equipo.temporizadorPregunta = setInterval(() => {
+    equipo.tiempoPregunta--;
+    renderTodo();
+
+    if (equipo.tiempoPregunta <= 0) {
+      clearInterval(equipo.temporizadorPregunta);
+      equipo.respuestaBloqueada = true;
+      equipo.mensaje = `⏰ Tiempo agotado. Correcta: ${equipo.preguntaActual.respuestas[equipo.preguntaActual.correcta]}`;
+      avanzarEquipo(equipo, false, true);
+    }
+  }, 1000);
+}
+
+function renderTodo() {
+  renderTableroEquipos();
+  actualizarRanking();
+  actualizarEstadoGeneral();
+}
+
+function renderTableroEquipos() {
+  const tablero = document.getElementById("tableroEquipos");
+  tablero.className = "tablero-equipos tablero-" + equipos.length;
+
+  let html = "";
+
+  equipos.forEach((equipo) => {
+    html += `
+      <section class="tarjeta-equipo">
+        <h2>${equipo.nombre}</h2>
+
+        <div class="meta-equipo">
+          <div class="meta-item">
+            <span class="mini-etiqueta">Puntos</span>
+            ${equipo.puntos}
+          </div>
+          <div class="meta-item">
+            <span class="mini-etiqueta">Ronda</span>
+            ${Math.min(equipo.ronda, TOTAL_RONDAS)}/${TOTAL_RONDAS}
+          </div>
+          <div class="meta-item">
+            <span class="mini-etiqueta">Tiempo</span>
+            ${equipo.fase === "pregunta" && !equipo.finalizado ? equipo.tiempoPregunta + "s" : "-"}
+          </div>
+        </div>
+
+        <div class="fase-equipo">
+          ${equipo.finalizado ? "🏁 Finalizado" : equipo.fase === "reto" ? "🎯 RETO" : "❓ PREGUNTA"}
+        </div>
+
+        <div class="contenido-equipo">
+          ${equipo.finalizado
+            ? "Este equipo ya ha completado todas sus rondas."
+            : equipo.fase === "reto"
+              ? equipo.retoActual
+              : equipo.preguntaActual.pregunta}
+        </div>
+
+        ${
+          equipo.finalizado
+            ? ""
+            : equipo.fase === "reto"
+              ? `
+                <div class="acciones">
+                  <button class="btn principal" onclick="superarReto(${equipo.id})">✅ Reto superado</button>
+                  <button class="btn secundario" onclick="cambiarReto(${equipo.id})">🔄 Cambiar reto</button>
+                </div>
+              `
+              : `
+                <div class="respuestas-equipo">
+                  ${equipo.preguntaActual.respuestas.map((r, i) => `
+                    <button
+                      class="respuesta-btn ${claseColor(i)}"
+                      onclick="responderEquipo(${equipo.id}, ${i})"
+                      ${equipo.respuestaBloqueada ? "disabled" : ""}
+                      id="eq${equipo.id}_r${i}"
+                    >
+                      ${r}
+                    </button>
+                  `).join("")}
+                </div>
+              `
+        }
+
+        <div class="mensaje-equipo">${equipo.mensaje}</div>
+      </section>
+    `;
+  });
+
+  tablero.innerHTML = html;
+}
+
+function claseColor(i) {
+  return ["rojo", "azul", "amarillo", "verde"][i] || "azul";
+}
+
+function superarReto(equipoId) {
+  const equipo = equipos.find(e => e.id === equipoId);
+  if (!equipo || equipo.finalizado) return;
+
+  equipo.puntos += PUNTOS_RETO;
+  equipo.mensaje = `✅ Reto superado. +${PUNTOS_RETO} puntos`;
+  if (typeof sonidoReto === "function") sonidoReto();
+
+  setTimeout(() => {
+    asignarNuevaPregunta(equipo);
+    renderTodo();
+  }, 400);
+
+  renderTodo();
+}
+
+function cambiarReto(equipoId) {
+  const equipo = equipos.find(e => e.id === equipoId);
+  if (!equipo || equipo.finalizado) return;
+
+  asignarNuevoReto(equipo);
+  renderTodo();
+}
+
+function responderEquipo(equipoId, opcion) {
+  const equipo = equipos.find(e => e.id === equipoId);
+  if (!equipo || equipo.finalizado || equipo.fase !== "pregunta" || equipo.respuestaBloqueada) return;
+
+  clearInterval(equipo.temporizadorPregunta);
+  equipo.respuestaBloqueada = true;
+
+  const correcta = equipo.preguntaActual.correcta;
+
+  if (opcion === correcta) {
+    equipo.puntos += PUNTOS_PREGUNTA;
+    equipo.mensaje = `✅ Correcta. +${PUNTOS_PREGUNTA} puntos`;
+    if (typeof sonidoAcierto === "function") sonidoAcierto();
+    avanzarEquipo(equipo, true, false);
+  } else {
+    equipo.mensaje = `❌ Incorrecta. Correcta: ${equipo.preguntaActual.respuestas[correcta]}`;
+    if (typeof sonidoError === "function") sonidoError();
+    avanzarEquipo(equipo, false, false);
+  }
+
+  renderTodo();
+}
+
+function avanzarEquipo(equipo, acierto, agotadoTiempo) {
+  setTimeout(() => {
+    if (equipo.ronda >= TOTAL_RONDAS) {
+      equipo.finalizado = true;
+      equipo.fase = "final";
+      equipo.mensaje = "🏁 Ha completado todas las rondas";
+      renderTodo();
+      comprobarFinGlobal();
+      return;
+    }
+
+    equipo.ronda++;
+    asignarNuevoReto(equipo);
+    renderTodo();
+  }, agotadoTiempo ? 1200 : 1000);
 }
 
 function actualizarRanking() {
   const clasificacion = [...equipos].sort((a, b) => b.puntos - a.puntos);
-  let html = "";
 
-  clasificacion.forEach((equipo, index) => {
-    html += `<div>${index + 1}. ${equipo.nombre} — <strong>${equipo.puntos} pts</strong></div>`;
+  let html = "";
+  clasificacion.forEach((equipo, i) => {
+    html += `<div>${i + 1}. ${equipo.nombre} — <strong>${equipo.puntos} pts</strong></div>`;
   });
 
   document.getElementById("ranking").innerHTML = html;
 }
 
-function actualizarDetallePuntos() {
+function actualizarEstadoGeneral() {
   let html = "";
-  equipos.forEach(equipo => {
-    html += `<div>${equipo.nombre}: <strong>${equipo.puntos}</strong></div>`;
+
+  equipos.forEach((equipo) => {
+    const estado = equipo.finalizado
+      ? "Finalizado"
+      : equipo.fase === "reto"
+        ? "En reto"
+        : "En pregunta";
+
+    html += `<div>${equipo.nombre}: ${estado} · ronda ${Math.min(equipo.ronda, TOTAL_RONDAS)}/${TOTAL_RONDAS}</div>`;
   });
-  document.getElementById("detallePuntos").innerHTML = html;
+
+  document.getElementById("estadoGeneral").innerHTML = html;
 }
 
-function mostrarMensaje(texto) {
-  document.getElementById("mensajeBox").innerText = texto;
+function comprobarFinGlobal() {
+  const todosFinalizados = equipos.every(e => e.finalizado);
+  if (todosFinalizados) {
+    finalizarPartida();
+  }
 }
 
 function finalizarPartida() {
   partidaIniciada = false;
   clearInterval(temporizadorTotal);
-  clearInterval(temporizadorPregunta);
+
+  equipos.forEach((equipo) => {
+    clearInterval(equipo.temporizadorPregunta);
+  });
 
   document.getElementById("panelJuego").classList.add("oculto");
   document.getElementById("panelFinal").classList.remove("oculto");
@@ -321,8 +340,8 @@ function finalizarPartida() {
   if (clasificacion[2]) html += `<div>🥉 ${clasificacion[2].nombre} — ${clasificacion[2].puntos} pts</div>`;
 
   html += `<hr>`;
-  clasificacion.forEach((equipo, index) => {
-    html += `<div>${index + 1}. ${equipo.nombre} — ${equipo.puntos} puntos</div>`;
+  clasificacion.forEach((equipo, i) => {
+    html += `<div>${i + 1}. ${equipo.nombre} — ${equipo.puntos} puntos</div>`;
   });
 
   document.getElementById("podioFinal").innerHTML = html;
@@ -334,7 +353,10 @@ function finalizarPartida() {
 
 function reiniciarJuego() {
   clearInterval(temporizadorTotal);
-  clearInterval(temporizadorPregunta);
+
+  equipos.forEach((equipo) => {
+    clearInterval(equipo.temporizadorPregunta);
+  });
 
   document.getElementById("panelFinal").classList.add("oculto");
   document.getElementById("panelJuego").classList.add("oculto");
