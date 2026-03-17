@@ -19,7 +19,7 @@ function beep(frecuencia, duracion) {
       oscilador.stop();
       contexto.close();
     }, duracion);
-  } catch (error) {
+  } catch (e) {
     console.log("Audio no disponible");
   }
 }
@@ -29,11 +29,11 @@ function sonidoAcierto() {
 }
 
 function sonidoError() {
-  beep(250, 250);
+  beep(250, 220);
 }
 
 function sonidoReto() {
-  beep(500, 200);
+  beep(500, 180);
 }
 
 function sonidoVictoria() {
