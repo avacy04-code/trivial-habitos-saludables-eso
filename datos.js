@@ -1,5 +1,5 @@
 const TOTAL_RONDAS = 10;
-const TIEMPO_TOTAL_SEGUNDOS = 600;
+const TIEMPO_TOTAL_SEGUNDOS = 900;
 const TIEMPO_POR_PREGUNTA = 20;
 const PUNTOS_RETO = 20;
 const PUNTOS_PREGUNTA = 10;
@@ -15,8 +15,8 @@ const retos = [
   "Explicad qué hacer si sospecháis una fractura y cómo evitar empeorarla.",
   "Simulad la actuación básica ante un esguince usando reposo y frío protegido.",
   "Representad qué información importante hay que dar a emergencias al pedir ayuda.",
-  "Escenificad la conducta correcta ante una persona que tiene dificultad para respirar.",
-  "Simulad la actuación adecuada ante una convulsión sin poner en peligro a la víctima."
+  "Escenificad la conducta correcta ante una persona con dificultad respiratoria.",
+  "Representad qué hacer ante una convulsión sin poner en peligro a la persona."
 ];
 
 const preguntas = [
@@ -76,18 +76,8 @@ const preguntas = [
     correcta: 2
   },
   {
-    pregunta: "Si una persona tiene una herida pequeña, es mejor...",
-    respuestas: ["Lavarse las manos y limpiarla", "Echar arena", "Tocarla mucho", "No hacer nada"],
-    correcta: 0
-  },
-  {
-    pregunta: "Ante un posible atragantamiento grave, hay que...",
-    respuestas: ["Esperar", "Dar agua", "Actuar de inmediato y pedir ayuda", "Tumbarlo sin más"],
-    correcta: 2
-  },
-  {
     pregunta: "Una norma básica al ayudar es...",
-    respuestas: ["No ponerse en peligro", "Mover siempre a la víctima", "Hacerlo rápido sin pensar", "No avisar a nadie"],
+    respuestas: ["No ponerse en peligro", "Mover siempre a la víctima", "Hacerlo todo deprisa", "No avisar"],
     correcta: 0
   },
   {
@@ -97,7 +87,7 @@ const preguntas = [
   },
   {
     pregunta: "En una hemorragia nasal, conviene...",
-    respuestas: ["Cabeza hacia atrás", "Presionar la nariz suavemente hacia delante", "Tumbar boca arriba", "Meter papel muy al fondo"],
+    respuestas: ["Cabeza hacia atrás", "Presionar la nariz hacia delante", "Tumbar boca arriba", "Meter papel muy al fondo"],
     correcta: 1
   },
   {
@@ -119,5 +109,15 @@ const preguntas = [
     pregunta: "En primeros auxilios escolares, lo más importante es...",
     respuestas: ["Actuar con seguridad y sentido común", "Mover siempre al herido", "No avisar a nadie", "Correr mucho"],
     correcta: 0
+  },
+  {
+    pregunta: "Si una persona tiene una herida pequeña, conviene...",
+    respuestas: ["Lavarse las manos y limpiarla", "Echar arena", "Tocarla mucho", "Ignorarla"],
+    correcta: 0
+  },
+  {
+    pregunta: "Ante un posible atragantamiento grave, hay que...",
+    respuestas: ["Esperar", "Dar agua", "Actuar de inmediato y pedir ayuda", "Tumbar sin más"],
+    correcta: 2
   }
 ];
