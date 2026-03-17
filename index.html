@@ -3,41 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Misión Primeros Auxilios ESO</title>
+  <title>Misión Primeros Auxilios · Equipos simultáneos</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
     <header class="cabecera">
       <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-      <p class="subtitulo">
-        Competición por equipos · 10 rondas · Retos + preguntas
-      </p>
+      <p class="subtitulo">Juego simultáneo por equipos · ESO · 10 rondas</p>
     </header>
 
-    <section class="panel panel-inicio" id="panelInicio">
+    <section class="panel" id="panelInicio">
       <h2>Configurar partida</h2>
 
-      <div class="formulario">
-        <label>Equipo 1</label>
-        <input type="text" id="equipo1" value="Dragón" />
+      <div class="config-grid">
+        <label for="numeroEquipos">Número de equipos</label>
+        <input type="number" id="numeroEquipos" min="2" max="20" value="4" />
 
-        <label>Equipo 2</label>
-        <input type="text" id="equipo2" value="Tigre" />
-
-        <label>Equipo 3</label>
-        <input type="text" id="equipo3" value="Águila" />
-
-        <label>Equipo 4</label>
-        <input type="text" id="equipo4" value="Tiburón" />
+        <button class="btn principal" onclick="generarCamposEquipos()" type="button">
+          Generar equipos
+        </button>
       </div>
 
-      <div class="acciones-inicio">
-        <button class="btn principal" onclick="iniciarPartida()">▶️ Empezar partida</button>
+      <div id="camposEquipos" class="campos-equipos"></div>
+
+      <div class="acciones">
+        <button class="btn principal grande" onclick="iniciarPartida()">
+          ▶️ Empezar partida
+        </button>
       </div>
     </section>
 
-    <section class="panel panel-juego oculto" id="panelJuego">
+    <section class="panel oculto" id="panelJuego">
       <div class="info-superior">
         <div class="tarjeta-info">
           <span class="etiqueta">Ronda</span>
@@ -45,8 +42,8 @@
         </div>
 
         <div class="tarjeta-info">
-          <span class="etiqueta">Turno</span>
-          <span id="equipoTurno">-</span>
+          <span class="etiqueta">Fase</span>
+          <span id="faseActual">Reto</span>
         </div>
 
         <div class="tarjeta-info">
@@ -55,64 +52,89 @@
         </div>
 
         <div class="tarjeta-info">
-          <span class="etiqueta">Pregunta</span>
-          <span id="contadorPregunta">0/0</span>
+          <span class="etiqueta">Modo</span>
+          <span>Simultáneo</span>
         </div>
       </div>
 
-      <div class="zona-central">
-        <div class="bloque-principal">
-          <div class="fase" id="faseTexto">Preparando partida...</div>
+      <div class="layout">
+        <main class="zona-principal">
+          <div class="mensaje" id="mensajeBox"></div>
 
-          <div id="retoBox" class="caja-reto oculto">
-            <h2>🎯 Reto de la ronda</h2>
-            <div id="retoTexto" class="reto-texto"></div>
-            <p class="nota-reto">
-              Cuando el equipo lo haya realizado correctamente, pulsa el botón.
+          <div class="bloque fase-bloque" id="retoBox">
+            <h2>🎯 Reto de primeros auxilios</h2>
+            <div class="contenido-principal" id="retoTexto"></div>
+            <p class="ayuda">
+              Todos los equipos realizan el reto a la vez. Marca los que lo han superado.
             </p>
+
+            <div id="listaEquiposReto" class="lista-equipos-check"></div>
+
             <div class="acciones">
               <button class="btn secundario" onclick="mostrarReto()">🔄 Cambiar reto</button>
-              <button class="btn principal" onclick="superarReto()">✅ Reto superado</button>
+              <button class="btn principal" onclick="corregirReto()">✅ Corregir reto y seguir</button>
             </div>
           </div>
 
-          <div id="preguntaBox" class="caja-pregunta oculto">
+          <div class="bloque fase-bloque oculto" id="preguntaBox">
             <div class="temporizador-pregunta">
-              ⏳ Tiempo de la pregunta: <span id="tiempoPregunta">15</span>s
+              ⏳ Tiempo de la pregunta: <span id="tiempoPregunta">20</span>s
             </div>
 
-            <h2 id="pregunta"></h2>
+            <h2>❓ Pregunta</h2>
+            <div class="contenido-principal pregunta-texto" id="pregunta"></div>
 
-            <div class="respuestas">
-              <button id="r0" class="respuesta rojo" onclick="responder(0)"></button>
-              <button id="r1" class="respuesta azul" onclick="responder(1)"></button>
-              <button id="r2" class="respuesta amarillo" onclick="responder(2)"></button>
-              <button id="r3" class="respuesta verde" onclick="responder(3)"></button>
+            <div class="respuestas" id="respuestasBox">
+              <button id="r0" class="respuesta rojo" onclick="seleccionarRespuesta(0)"></button>
+              <button id="r1" class="respuesta azul" onclick="seleccionarRespuesta(1)"></button>
+              <button id="r2" class="respuesta amarillo" onclick="seleccionarRespuesta(2)"></button>
+              <button id="r3" class="respuesta verde" onclick="seleccionarRespuesta(3)"></button>
+            </div>
+
+            <p class="ayuda">
+              Cuando termine el tiempo, marca qué equipos han acertado la respuesta correcta.
+            </p>
+
+            <div id="respuestaCorrectaBox" class="respuesta-correcta oculto"></div>
+
+            <div id="listaEquiposPregunta" class="lista-equipos-check"></div>
+
+            <div class="acciones">
+              <button class="btn principal" onclick="corregirPregunta()">✅ Corregir pregunta y pasar de ronda</button>
             </div>
           </div>
+        </main>
 
-          <div id="mensajeBox" class="mensaje"></div>
-        </div>
-
-        <aside class="bloque-lateral">
-          <div class="ranking-box">
+        <aside class="zona-lateral">
+          <div class="bloque">
             <h3>🏆 Ranking</h3>
             <div id="ranking"></div>
           </div>
 
-          <div class="puntuacion-box">
-            <h3>📊 Puntuación actual</h3>
+          <div class="bloque">
+            <h3>📊 Puntuación</h3>
             <div id="detallePuntos"></div>
+          </div>
+
+          <div class="bloque">
+            <h3>ℹ️ Reglas</h3>
+            <div class="reglas">
+              <div>• 1 reto por ronda</div>
+              <div>• 1 pregunta por ronda</div>
+              <div>• Todos los equipos juegan a la vez</div>
+              <div>• Reto superado: +20 pts</div>
+              <div>• Pregunta acertada: +10 pts</div>
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="panel panel-final oculto" id="panelFinal">
-      <h2>🏁 Fin de la competición</h2>
+    <section class="panel oculto" id="panelFinal">
+      <h2>🏁 Clasificación final</h2>
       <div id="podioFinal" class="podio"></div>
-      <div class="acciones-final">
-        <button class="btn principal" onclick="reiniciarJuego()">🔁 Jugar otra vez</button>
+      <div class="acciones">
+        <button class="btn principal grande" onclick="reiniciarJuego()">🔁 Nueva partida</button>
       </div>
     </section>
   </div>
