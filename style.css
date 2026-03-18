@@ -32,8 +32,7 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.35) 100%);
+  background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.35) 100%);
 }
 
 .app {
@@ -58,9 +57,7 @@ body::after {
     url("img/banner-auxilios.jpg");
   background-size: cover;
   background-position: center;
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255,255,255,0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.08);
   position: relative;
 }
 
@@ -102,10 +99,12 @@ body::after {
   border-radius: 24px;
   padding: 22px;
   margin-bottom: 20px;
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.10);
+}
+
+.panel-final-ultra {
+  text-align: center;
 }
 
 .oculto {
@@ -150,9 +149,14 @@ input[type="text"] {
   box-shadow: 0 12px 22px rgba(0,0,0,0.22);
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
   transform: translateY(-2px) scale(1.01);
   filter: brightness(1.05);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn.principal {
@@ -163,6 +167,14 @@ input[type="text"] {
 .btn.secundario {
   background: linear-gradient(135deg, #f59e0b, #d97706);
   color: white;
+}
+
+.btn.comodin {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: white;
+  font-size: 14px;
+  padding: 10px 12px;
+  width: 100%;
 }
 
 .btn.grande {
@@ -177,7 +189,7 @@ input[type="text"] {
 
 .barra-superior {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
   margin-bottom: 20px;
 }
@@ -189,9 +201,11 @@ input[type="text"] {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  box-shadow:
-    0 10px 20px rgba(0,0,0,0.14),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.lider-box {
+  background: linear-gradient(180deg, rgba(250,204,21,0.22), rgba(255,255,255,0.08));
 }
 
 .etiqueta {
@@ -229,14 +243,11 @@ input[type="text"] {
 
 .tarjeta-equipo,
 .bloque {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
   border-radius: 22px;
   padding: 18px;
   border: 1px solid rgba(255,255,255,0.10);
-  box-shadow:
-    0 14px 28px rgba(0,0,0,0.16),
-    inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .tarjeta-equipo {
@@ -249,16 +260,13 @@ input[type="text"] {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.05), transparent 35%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent 35%);
   pointer-events: none;
 }
 
 .tarjeta-equipo:hover {
   transform: translateY(-4px);
-  box-shadow:
-    0 18px 34px rgba(0,0,0,0.22),
-    0 0 0 1px rgba(255,255,255,0.05);
+  box-shadow: 0 18px 34px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.05);
 }
 
 .tarjeta-equipo.acierto {
@@ -290,7 +298,7 @@ input[type="text"] {
 
 .meta-equipo {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -338,9 +346,7 @@ input[type="text"] {
   object-fit: cover;
   border-radius: 16px;
   margin-bottom: 12px;
-  box-shadow:
-    0 12px 24px rgba(0,0,0,0.22),
-    0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.06);
 }
 
 .contenido-equipo {
@@ -369,7 +375,8 @@ input[type="text"] {
   box-shadow: 0 0 14px rgba(255,255,255,0.22);
 }
 
-.respuestas-equipo {
+.respuestas-equipo,
+.comodines-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -444,13 +451,15 @@ input[type="text"] {
 }
 
 .ranking-destacado {
-  background:
-    linear-gradient(180deg, rgba(250,204,21,0.20), rgba(255,255,255,0.08));
+  background: linear-gradient(180deg, rgba(250,204,21,0.20), rgba(255,255,255,0.08));
 }
 
-.ranking-destacado h3,
-.bloque h3 {
-  margin-top: 0;
+.ganador-final {
+  font-size: 34px;
+  font-weight: bold;
+  color: #fde68a;
+  margin: 12px 0 24px;
+  text-shadow: 0 0 18px rgba(250,204,21,0.45);
 }
 
 hr {
@@ -476,7 +485,8 @@ hr {
   .config-grid,
   .campos-equipos,
   .meta-equipo,
-  .respuestas-equipo {
+  .respuestas-equipo,
+  .comodines-grid {
     grid-template-columns: 1fr;
   }
 
