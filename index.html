@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Misión Primeros Auxilios · Pantalla dividida</title>
+  <title>Misión Primeros Auxilios · Versión 3.5 PRO</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
-    <header class="cabecera">
-      <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-      <p class="subtitulo">Pantalla dividida por equipos · retos y preguntas simultáneos</p>
+    <header class="cabecera hero">
+      <div class="hero-overlay">
+        <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
+        <p class="subtitulo">Versión 3.5 PRO · Equipos simultáneos en pantalla dividida</p>
+      </div>
     </header>
 
     <section class="panel" id="panelInicio">
@@ -51,7 +53,7 @@
         </main>
 
         <aside class="lateral">
-          <div class="bloque">
+          <div class="bloque ranking-destacado">
             <h3>🏆 Ranking general</h3>
             <div id="ranking"></div>
           </div>
@@ -59,6 +61,17 @@
           <div class="bloque">
             <h3>📊 Estado de equipos</h3>
             <div id="estadoGeneral"></div>
+          </div>
+
+          <div class="bloque">
+            <h3>🎯 Categorías</h3>
+            <div class="leyenda">
+              <div><span class="badge">RCP</span> Reanimación y respiración</div>
+              <div><span class="badge">Hemorragias</span> Sangrados y heridas</div>
+              <div><span class="badge">Quemaduras</span> Cuidados básicos</div>
+              <div><span class="badge">Emergencias</span> 112 y actuación</div>
+              <div><span class="badge">Traumatismos</span> Golpes, fracturas y esguinces</div>
+            </div>
           </div>
         </aside>
       </div>
