@@ -3,58 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Misión Primeros Auxilios · Versión 3.5 PRO</title>
+  <title>🚑 Misión Primeros Auxilios</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
   <div class="app">
+
+    <!-- CABECERA VISUAL -->
     <header class="cabecera hero">
       <div class="hero-overlay">
         <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-        <p class="subtitulo">Versión 3.5 PRO · Equipos simultáneos en pantalla dividida</p>
+        <p class="subtitulo">
+          🧠 Aprende · 🏃 Compite · 🏆 Gana
+        </p>
       </div>
     </header>
 
+    <!-- PANEL INICIO -->
     <section class="panel" id="panelInicio">
-      <h2>Configurar partida</h2>
+
+      <h2>⚙️ Configuración de la partida</h2>
 
       <div class="config-grid">
         <label for="numeroEquipos">Número de equipos</label>
         <input type="number" id="numeroEquipos" min="2" max="12" value="4" />
-        <button class="btn principal" type="button" onclick="generarCamposEquipos()">Generar equipos</button>
+        <button class="btn principal" onclick="generarCamposEquipos()">
+          Generar equipos
+        </button>
       </div>
 
       <div id="camposEquipos" class="campos-equipos"></div>
 
       <div class="acciones">
-        <button class="btn principal grande" onclick="iniciarPartida()">▶️ Empezar partida</button>
+        <button class="btn principal grande" onclick="iniciarPartida()">
+          ▶️ Empezar partida
+        </button>
       </div>
+
     </section>
 
+    <!-- PANEL JUEGO -->
     <section class="panel oculto" id="panelJuego">
+
+      <!-- BARRA SUPERIOR -->
       <div class="barra-superior">
+
         <div class="info-box">
-          <span class="etiqueta">Tiempo total</span>
+          <span class="etiqueta">⏱ Tiempo total</span>
           <span id="tiempoTotal">15:00</span>
         </div>
+
         <div class="info-box">
-          <span class="etiqueta">Rondas máximas</span>
+          <span class="etiqueta">🔁 Rondas</span>
           <span id="maxRondasTexto">10</span>
         </div>
+
         <div class="info-box">
-          <span class="etiqueta">Equipos</span>
+          <span class="etiqueta">👥 Equipos</span>
           <span id="totalEquiposTexto">0</span>
         </div>
+
       </div>
 
+      <!-- ZONA PRINCIPAL -->
       <div class="zona-principal">
+
+        <!-- TABLERO -->
         <main>
           <div id="tableroEquipos" class="tablero-equipos"></div>
         </main>
 
+        <!-- PANEL LATERAL -->
         <aside class="lateral">
+
           <div class="bloque ranking-destacado">
-            <h3>🏆 Ranking general</h3>
+            <h3>🏆 Ranking</h3>
             <div id="ranking"></div>
           </div>
 
@@ -64,31 +91,44 @@
           </div>
 
           <div class="bloque">
-            <h3>🎯 Categorías</h3>
+            <h3>📚 Categorías</h3>
             <div class="leyenda">
-              <div><span class="badge">RCP</span> Reanimación y respiración</div>
-              <div><span class="badge">Hemorragias</span> Sangrados y heridas</div>
-              <div><span class="badge">Quemaduras</span> Cuidados básicos</div>
-              <div><span class="badge">Emergencias</span> 112 y actuación</div>
-              <div><span class="badge">Traumatismos</span> Golpes, fracturas y esguinces</div>
+              <div>❤️ RCP</div>
+              <div>🩸 Hemorragias</div>
+              <div>🔥 Quemaduras</div>
+              <div>🚨 Emergencias</div>
+              <div>🦴 Traumatismos</div>
             </div>
           </div>
+
         </aside>
+
       </div>
+
     </section>
 
+    <!-- PANEL FINAL -->
     <section class="panel oculto" id="panelFinal">
+
       <h2>🏁 Clasificación final</h2>
+
       <div id="podioFinal" class="podio"></div>
+
       <div class="acciones">
-        <button class="btn principal grande" onclick="reiniciarJuego()">🔁 Nueva partida</button>
+        <button class="btn principal grande" onclick="reiniciarJuego()">
+          🔁 Nueva partida
+        </button>
       </div>
+
     </section>
+
   </div>
 
+  <!-- SCRIPTS -->
   <script src="datos.js"></script>
   <script src="ruleta.js"></script>
   <script src="sonidos.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
