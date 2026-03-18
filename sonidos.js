@@ -1,4 +1,4 @@
-function beep(frecuencia, duracion) {
+function beep(frecuencia, duracion, tipo = "sine") {
   try {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
@@ -7,7 +7,7 @@ function beep(frecuencia, duracion) {
     const oscilador = contexto.createOscillator();
     const ganancia = contexto.createGain();
 
-    oscilador.type = "sine";
+    oscilador.type = tipo;
     oscilador.frequency.value = frecuencia;
     oscilador.connect(ganancia);
     ganancia.connect(contexto.destination);
@@ -25,17 +25,25 @@ function beep(frecuencia, duracion) {
 }
 
 function sonidoAcierto() {
-  beep(700, 180);
+  beep(700, 120);
+  setTimeout(() => beep(900, 140), 100);
 }
 
 function sonidoError() {
-  beep(250, 220);
+  beep(220, 250, "square");
 }
 
 function sonidoReto() {
-  beep(500, 180);
+  beep(500, 120);
+  setTimeout(() => beep(650, 140), 110);
 }
 
 function sonidoVictoria() {
-  beep(900, 350);
+  beep(700, 120);
+  setTimeout(() => beep(900, 120), 120);
+  setTimeout(() => beep(1100, 200), 240);
+}
+
+function sonidoTiempo() {
+  beep(280, 90, "triangle");
 }
