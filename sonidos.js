@@ -47,3 +47,8 @@ function sonidoVictoria() {
 function sonidoTiempo() {
   beep(280, 90, "triangle");
 }
+
+function sonidoComodin() {
+  beep(480, 100);
+  setTimeout(() => beep(760, 120), 100);
+}
