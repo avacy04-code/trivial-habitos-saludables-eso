@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚑 Misión Primeros Auxilios · Versión 3.6 ULTRA</title>
+  <title>🚑 Misión Primeros Auxilios · Versión 4.0 PRO</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
+  <div id="flashAcierto" class="flash flash-acierto oculto"></div>
+  <div id="flashError" class="flash flash-error oculto"></div>
 
+  <canvas id="confetiCanvas"></canvas>
+
+  <div class="app">
     <header class="cabecera hero">
       <div class="hero-overlay">
         <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-        <p class="subtitulo">Versión 3.6 ULTRA · Turnos por equipo · 1 reto + 5 preguntas</p>
+        <p class="subtitulo">Versión 4.0 PRO · Concurso visual por turnos</p>
       </div>
     </header>
 
@@ -44,7 +48,7 @@
           <span id="rondaActualTexto">1/10</span>
         </div>
 
-        <div class="info-box">
+        <div class="info-box turno-destacado">
           <span class="etiqueta">👥 Equipo en juego</span>
           <span id="equipoActualTexto">-</span>
         </div>
@@ -140,7 +144,6 @@
         <button class="btn principal grande" onclick="reiniciarJuego()">🔁 Nueva partida</button>
       </div>
     </section>
-
   </div>
 
   <script src="datos.js"></script>
