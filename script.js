@@ -38,22 +38,19 @@ function iniciarPartida() {
       id: i,
       nombre,
       puntos: 0,
-      ronda: 1,
-      fase: "reto",
-      tiempoPregunta: TIEMPO_POR_PREGUNTA,
       retoActual: null,
       preguntaActual: null,
       respuestaBloqueada: true,
       retoUsados: [],
       preguntasUsadas: [],
-      finalizado: false,
       mensaje: "Preparado",
       doblePuntuacionDisponible: true,
       congelarTiempoDisponible: true,
       pasarPreguntaDisponible: true,
       robarPuntosDisponible: true,
       doblePuntuacionActiva: false,
-      tiempoCongelado: false
+      tiempoCongelado: false,
+      tiempoPregunta: TIEMPO_POR_PREGUNTA
     });
   }
 
@@ -79,9 +76,9 @@ function equipoActual() {
 function iniciarTurnoEquipoActual() {
   const equipo = equipoActual();
   if (!equipo) return;
-
   preguntaActualTurno = 0;
   asignarNuevoReto(equipo);
+  animarCambioTurno();
   renderTodo();
 }
 
@@ -91,9 +88,9 @@ function asignarNuevoReto(equipo) {
   equipo.preguntaActual = null;
   equipo.respuestaBloqueada = true;
   equipo.tiempoPregunta = TIEMPO_POR_PREGUNTA;
-  equipo.mensaje = "Realiza el reto y pulsa “Reto superado”";
   equipo.tiempoCongelado = false;
   equipo.doblePuntuacionActiva = false;
+  equipo.mensaje = "Realiza el reto y pulsa “Reto superado”";
 }
 
 function asignarNuevaPregunta(equipo) {
@@ -102,7 +99,7 @@ function asignarNuevaPregunta(equipo) {
   equipo.respuestaBloqueada = false;
   equipo.tiempoPregunta = TIEMPO_POR_PREGUNTA;
   equipo.tiempoCongelado = false;
-  equipo.mensaje = `Pregunta ${preguntaActualTurno + 1} de ${PREGUNTAS_POR_TURNO}`;
+  equipo.mensaje = `Pregunta ${preguntaActualTurno} de ${PREGUNTAS_POR_TURNO}`;
   iniciarTemporizadorPregunta();
 }
 
@@ -111,7 +108,6 @@ function obtenerElementoUnico(lista, usados, clave) {
   const pool = disponibles.length ? disponibles : lista;
   const elemento = pool[Math.floor(Math.random() * pool.length)];
   const indiceReal = lista.findIndex((x) => x[clave] === elemento[clave]);
-
   if (!usados.includes(indiceReal)) usados.push(indiceReal);
   return elemento;
 }
@@ -123,7 +119,6 @@ function iniciarTemporizadorTotal() {
   temporizadorTotal = setInterval(() => {
     tiempoTotalRestante--;
     actualizarTiempoTotalUI();
-
     if (tiempoTotalRestante <= 0) {
       clearInterval(temporizadorTotal);
       finalizarPartida();
@@ -143,8 +138,7 @@ function iniciarTemporizadorPregunta() {
 
   temporizadorPregunta = setInterval(() => {
     const equipo = equipoActual();
-    if (!equipo || equipo.finalizado || equipo.fase !== "pregunta") return;
-
+    if (!equipo || equipo.fase !== "pregunta") return;
     if (equipo.tiempoCongelado) return;
 
     equipo.tiempoPregunta--;
@@ -159,7 +153,8 @@ function iniciarTemporizadorPregunta() {
       clearInterval(temporizadorPregunta);
       equipo.respuestaBloqueada = true;
       equipo.mensaje = `⏰ Tiempo agotado. Correcta: ${equipo.preguntaActual.respuestas[equipo.preguntaActual.correcta]}`;
-      siguientePreguntaOTurno();
+      flashError();
+      setTimeout(() => siguientePreguntaOTurno(), 900);
     }
   }, 1000);
 }
@@ -213,9 +208,7 @@ function renderTodo() {
           class="respuesta-btn ${claseColor(i)}"
           onclick="responderPregunta(${i})"
           ${equipo.respuestaBloqueada ? "disabled" : ""}
-        >
-          ${r}
-        </button>
+        >${r}</button>
       `).join("");
   }
 }
@@ -226,31 +219,32 @@ function claseColor(i) {
 
 function superarReto() {
   const equipo = equipoActual();
-  if (!equipo || equipo.finalizado) return;
+  if (!equipo) return;
 
   equipo.puntos += PUNTOS_RETO;
   equipo.mensaje = `✅ Reto superado. +${PUNTOS_RETO} puntos`;
   if (typeof sonidoReto === "function") sonidoReto();
+  flashAcierto();
 
   setTimeout(() => {
     preguntaActualTurno = 1;
     asignarNuevaPregunta(equipo);
     renderTodo();
-  }, 500);
+  }, 600);
 
   renderTodo();
 }
 
 function cambiarRetoActual() {
   const equipo = equipoActual();
-  if (!equipo || equipo.finalizado) return;
+  if (!equipo) return;
   asignarNuevoReto(equipo);
   renderTodo();
 }
 
 function responderPregunta(opcion) {
   const equipo = equipoActual();
-  if (!equipo || equipo.finalizado || equipo.fase !== "pregunta" || equipo.respuestaBloqueada) return;
+  if (!equipo || equipo.fase !== "pregunta" || equipo.respuestaBloqueada) return;
 
   clearInterval(temporizadorPregunta);
   equipo.respuestaBloqueada = true;
@@ -263,17 +257,17 @@ function responderPregunta(opcion) {
     equipo.puntos += puntosGanados;
     equipo.mensaje = `✅ Correcta. +${puntosGanados} puntos`;
     if (typeof sonidoAcierto === "function") sonidoAcierto();
+    flashAcierto();
   } else {
     equipo.mensaje = `❌ Incorrecta. Correcta: ${equipo.preguntaActual.respuestas[correcta]}`;
     if (typeof sonidoError === "function") sonidoError();
+    flashError();
   }
 
   equipo.doblePuntuacionActiva = false;
   renderTodo();
 
-  setTimeout(() => {
-    siguientePreguntaOTurno();
-  }, 1000);
+  setTimeout(() => siguientePreguntaOTurno(), 1000);
 }
 
 function siguientePreguntaOTurno() {
@@ -284,10 +278,9 @@ function siguientePreguntaOTurno() {
     preguntaActualTurno++;
     asignarNuevaPregunta(equipo);
     renderTodo();
-    return;
+  } else {
+    pasarAlSiguienteEquipo();
   }
-
-  pasarAlSiguienteEquipo();
 }
 
 function pasarAlSiguienteEquipo() {
@@ -341,15 +334,13 @@ function usarPasarPregunta() {
   if (!equipo || !equipo.pasarPreguntaDisponible || equipo.fase !== "pregunta" || equipo.respuestaBloqueada) return;
 
   equipo.pasarPreguntaDisponible = false;
-  clearInterval(temporizadorPregunta);
   equipo.doblePuntuacionActiva = false;
+  clearInterval(temporizadorPregunta);
   equipo.mensaje = "⏭ Pregunta pasada sin penalización";
   if (typeof sonidoComodin === "function") sonidoComodin();
   renderTodo();
 
-  setTimeout(() => {
-    siguientePreguntaOTurno();
-  }, 700);
+  setTimeout(() => siguientePreguntaOTurno(), 700);
 }
 
 function usarRobarPuntos() {
@@ -371,6 +362,7 @@ function usarRobarPuntos() {
   equipo.robarPuntosDisponible = false;
   equipo.mensaje = `💥 Has robado ${robo} puntos a ${victima.nombre}`;
   if (typeof sonidoComodin === "function") sonidoComodin();
+  flashAcierto();
   renderTodo();
 }
 
@@ -390,8 +382,9 @@ function actualizarEstadoGeneral() {
   let html = "";
 
   equipos.forEach((equipo, i) => {
-    let estado = "Esperando";
-    if (i === turnoEquipo) estado = equipo.fase === "reto" ? "Jugando reto" : "Jugando preguntas";
+    const estado = i === turnoEquipo
+      ? (equipo.fase === "reto" ? "Jugando reto" : "Jugando preguntas")
+      : "Esperando";
 
     html += `<div>${equipo.nombre}: ${estado} · ${equipo.puntos} pts</div>`;
   });
@@ -405,6 +398,15 @@ function actualizarLider() {
   document.getElementById("liderActual").innerText = `${lider.nombre} (${lider.puntos} pts)`;
 }
 
+function reiniciarJuego() {
+  clearInterval(temporizadorTotal);
+  clearInterval(temporizadorPregunta);
+  document.getElementById("panelFinal").classList.add("oculto");
+  document.getElementById("panelJuego").classList.add("oculto");
+  document.getElementById("panelInicio").classList.remove("oculto");
+  detenerConfeti();
+}
+
 function finalizarPartida() {
   partidaIniciada = false;
   clearInterval(temporizadorTotal);
@@ -414,8 +416,8 @@ function finalizarPartida() {
   document.getElementById("panelFinal").classList.remove("oculto");
 
   const clasificacion = [...equipos].sort((a, b) => b.puntos - a.puntos);
-
   const ganador = clasificacion[0];
+
   document.getElementById("ganadorFinal").innerHTML =
     ganador ? `👑 GANADOR: ${ganador.nombre} con ${ganador.puntos} puntos` : "";
 
@@ -423,7 +425,6 @@ function finalizarPartida() {
   if (clasificacion[0]) html += `<div>🥇 ${clasificacion[0].nombre} — ${clasificacion[0].puntos} pts</div>`;
   if (clasificacion[1]) html += `<div>🥈 ${clasificacion[1].nombre} — ${clasificacion[1].puntos} pts</div>`;
   if (clasificacion[2]) html += `<div>🥉 ${clasificacion[2].nombre} — ${clasificacion[2].puntos} pts</div>`;
-
   html += "<hr>";
   clasificacion.forEach((equipo, i) => {
     html += `<div>${i + 1}. ${equipo.nombre} — ${equipo.puntos} puntos</div>`;
@@ -432,15 +433,67 @@ function finalizarPartida() {
   document.getElementById("podioFinal").innerHTML = html;
 
   if (typeof sonidoVictoria === "function") sonidoVictoria();
+  lanzarConfeti();
 }
 
-function reiniciarJuego() {
-  clearInterval(temporizadorTotal);
-  clearInterval(temporizadorPregunta);
+function flashAcierto() {
+  const el = document.getElementById("flashAcierto");
+  el.classList.remove("oculto", "visible");
+  void el.offsetWidth;
+  el.classList.add("visible");
+}
 
-  document.getElementById("panelFinal").classList.add("oculto");
-  document.getElementById("panelJuego").classList.add("oculto");
-  document.getElementById("panelInicio").classList.remove("oculto");
+function flashError() {
+  const el = document.getElementById("flashError");
+  el.classList.remove("oculto", "visible");
+  void el.offsetWidth;
+  el.classList.add("visible");
+}
+
+function animarCambioTurno() {
+  const tarjeta = document.getElementById("zonaTurnoActual");
+  tarjeta.classList.remove("cambio-turno");
+  void tarjeta.offsetWidth;
+  tarjeta.classList.add("cambio-turno");
+}
+
+let confetiAnimacion = null;
+function lanzarConfeti() {
+  const canvas = document.getElementById("confetiCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const piezas = Array.from({ length: 160 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    w: 8 + Math.random() * 10,
+    h: 10 + Math.random() * 14,
+    dx: -2 + Math.random() * 4,
+    dy: 2 + Math.random() * 5,
+    color: ["#ef4444", "#3b82f6", "#22c55e", "#facc15", "#a855f7"][Math.floor(Math.random() * 5)]
+  }));
+
+  function animar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    piezas.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.y > canvas.height) p.y = -20;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x, p.y, p.w, p.h);
+    });
+    confetiAnimacion = requestAnimationFrame(animar);
+  }
+
+  animar();
+}
+
+function detenerConfeti() {
+  if (confetiAnimacion) cancelAnimationFrame(confetiAnimacion);
+  const canvas = document.getElementById("confetiCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 generarCamposEquipos();
