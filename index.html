@@ -12,7 +12,7 @@
     <header class="cabecera hero">
       <div class="hero-overlay">
         <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-        <p class="subtitulo">Versión 3.6 ULTRA · Equipos simultáneos · Comodines · Ranking en vivo</p>
+        <p class="subtitulo">Versión 3.6 ULTRA · Turnos por equipo · 1 reto + 5 preguntas</p>
       </div>
     </header>
 
@@ -40,13 +40,13 @@
         </div>
 
         <div class="info-box">
-          <span class="etiqueta">🔁 Rondas</span>
-          <span id="maxRondasTexto">10</span>
+          <span class="etiqueta">🔁 Ronda</span>
+          <span id="rondaActualTexto">1/10</span>
         </div>
 
         <div class="info-box">
-          <span class="etiqueta">👥 Equipos</span>
-          <span id="totalEquiposTexto">0</span>
+          <span class="etiqueta">👥 Equipo en juego</span>
+          <span id="equipoActualTexto">-</span>
         </div>
 
         <div class="info-box lider-box">
@@ -57,7 +57,54 @@
 
       <div class="zona-principal">
         <main>
-          <div id="tableroEquipos" class="tablero-equipos"></div>
+          <section class="tarjeta-equipo" id="zonaTurnoActual">
+            <h2 id="nombreEquipoTurno">Equipo</h2>
+
+            <div class="meta-equipo">
+              <div class="meta-item">
+                <span class="mini-etiqueta">Puntos</span>
+                <span id="puntosEquipoTurno">0</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Ronda</span>
+                <span id="rondaEquipoTurno">1/10</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Pregunta</span>
+                <span id="preguntaTurnoTexto">0/5</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Tiempo</span>
+                <span id="tiempoPreguntaTexto">-</span>
+              </div>
+            </div>
+
+            <div class="fase-equipo" id="faseActualTexto">🎯 RETO</div>
+
+            <div class="badge" id="categoriaActual">General</div>
+
+            <div class="contenido-equipo" id="contenidoActual"></div>
+
+            <div class="barra-tiempo" id="contenedorBarraTiempo" style="display:none;">
+              <div class="barra-tiempo-interna" id="barraTiempoActual" style="width:100%;"></div>
+            </div>
+
+            <div id="botonesRespuesta" class="respuestas-equipo"></div>
+
+            <div id="botonesReto" class="acciones">
+              <button class="btn principal" onclick="superarReto()">✅ Reto superado</button>
+              <button class="btn secundario" onclick="cambiarRetoActual()">🔄 Cambiar reto</button>
+            </div>
+
+            <div id="comodinesBox" class="comodines-grid" style="display:none; margin-top:12px;">
+              <button class="btn comodin" onclick="usarDoblePuntuacion()">x2 Doble</button>
+              <button class="btn comodin" onclick="usarCongelarTiempo()">⏸ Congelar</button>
+              <button class="btn comodin" onclick="usarPasarPregunta()">⏭ Pasar</button>
+              <button class="btn comodin" onclick="usarRobarPuntos()">💥 Robar</button>
+            </div>
+
+            <div class="mensaje-equipo" id="mensajeTurno">Preparado</div>
+          </section>
         </main>
 
         <aside class="lateral">
