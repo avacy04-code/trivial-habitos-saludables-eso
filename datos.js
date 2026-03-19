@@ -1,4 +1,5 @@
 const TOTAL_RONDAS = 10;
+const PREGUNTAS_POR_TURNO = 5;
 const TIEMPO_TOTAL_SEGUNDOS = 900;
 const TIEMPO_POR_PREGUNTA = 20;
 const PUNTOS_RETO = 20;
@@ -116,5 +117,19 @@ const preguntas = [
     correcta: 0,
     imagen: "img/esguince.jpg",
     categoria: "Traumatismos"
+  },
+  {
+    pregunta: "Si una persona inconsciente respira, lo correcto es...",
+    respuestas: ["Dejarla sola", "Posición lateral de seguridad", "Sentarla", "Moverla mucho"],
+    correcta: 1,
+    imagen: "img/pls.jpg",
+    categoria: "Emergencias"
+  },
+  {
+    pregunta: "Ante una quemadura, nunca debemos...",
+    respuestas: ["Enfriar con agua", "Aplicar pasta de dientes", "Proteger la zona", "Retirar anillos si es posible"],
+    correcta: 1,
+    imagen: "img/quemadura.jpg",
+    categoria: "Quemaduras"
   }
 ];
