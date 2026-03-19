@@ -3,104 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚑 Misión Primeros Auxilios · PRO</title>
+  <title>🚑 Misión Primeros Auxilios · Versión 3.6 ULTRA</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app">
 
-<div class="app">
+    <header class="cabecera hero">
+      <div class="hero-overlay">
+        <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
+        <p class="subtitulo">Versión 3.6 ULTRA · Turnos por equipo · 1 reto + 5 preguntas</p>
+      </div>
+    </header>
 
-  <header class="hero">
-    <div class="hero-overlay">
-      <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-      <p class="subtitulo">Versión PRO · Turnos · 1 reto + 5 preguntas</p>
-    </div>
-  </header>
+    <section class="panel" id="panelInicio">
+      <h2>⚙️ Configuración de la partida</h2>
 
-  <!-- CONFIG -->
-  <section class="panel" id="panelInicio">
-    <h2>⚙️ Configuración</h2>
-
-    <div class="config-grid">
-      <label>Nº equipos</label>
-      <input type="number" id="numeroEquipos" min="2" max="12" value="4">
-      <button class="btn principal" onclick="generarCamposEquipos()">Generar</button>
-    </div>
-
-    <div id="camposEquipos" class="campos-equipos"></div>
-
-    <div class="acciones">
-      <button class="btn principal grande" onclick="iniciarPartida()">▶️ Empezar</button>
-    </div>
-  </section>
-
-  <!-- JUEGO -->
-  <section class="panel oculto" id="panelJuego">
-
-    <div class="barra-superior">
-      <div class="info-box">
-        <span>⏱</span>
-        <span id="tiempoTotal">15:00</span>
+      <div class="config-grid">
+        <label for="numeroEquipos">Número de equipos</label>
+        <input type="number" id="numeroEquipos" min="2" max="12" value="4" />
+        <button class="btn principal" type="button" onclick="generarCamposEquipos()">Generar equipos</button>
       </div>
 
-      <div class="info-box">
-        <span>🔁</span>
-        <span id="rondaActualTexto">1/10</span>
+      <div id="camposEquipos" class="campos-equipos"></div>
+
+      <div class="acciones">
+        <button class="btn principal grande" onclick="iniciarPartida()">▶️ Empezar partida</button>
       </div>
-
-      <div class="info-box">
-        <span>👥</span>
-        <span id="equipoActualTexto"></span>
-      </div>
-
-      <div class="info-box lider-box">
-        <span>🥇</span>
-        <span id="liderActual"></span>
-      </div>
-    </div>
-
-    <section class="tarjeta-equipo">
-
-      <h2 id="nombreEquipoTurno"></h2>
-
-      <div id="contenidoActual"></div>
-
-      <div class="barra-tiempo">
-        <div id="barraTiempo" class="barra-tiempo-interna"></div>
-      </div>
-
-      <div id="botonesRespuesta"></div>
-
-      <div id="botonesReto">
-        <button class="btn principal" onclick="superarReto()">Reto superado</button>
-      </div>
-
-      <div id="comodinesBox">
-        <button onclick="usarDoble()">x2</button>
-        <button onclick="usarCongelar()">⏸</button>
-        <button onclick="usarPasar()">⏭</button>
-        <button onclick="usar50()">🎯50%</button>
-      </div>
-
-      <p id="mensajeTurno"></p>
-
     </section>
 
-    <div id="ranking"></div>
+    <section class="panel oculto" id="panelJuego">
+      <div class="barra-superior">
+        <div class="info-box">
+          <span class="etiqueta">⏱ Tiempo total</span>
+          <span id="tiempoTotal">15:00</span>
+        </div>
 
-  </section>
+        <div class="info-box">
+          <span class="etiqueta">🔁 Ronda</span>
+          <span id="rondaActualTexto">1/10</span>
+        </div>
 
-  <!-- FINAL -->
-  <section class="panel oculto" id="panelFinal">
-    <h2>🏁 FINAL</h2>
-    <div id="ganadorFinal"></div>
-  </section>
+        <div class="info-box">
+          <span class="etiqueta">👥 Equipo en juego</span>
+          <span id="equipoActualTexto">-</span>
+        </div>
 
-</div>
+        <div class="info-box lider-box">
+          <span class="etiqueta">🥇 Líder actual</span>
+          <span id="liderActual">-</span>
+        </div>
+      </div>
 
-<script src="datos.js"></script>
-<script src="sonidos.js"></script>
-<script src="script.js"></script>
+      <div class="zona-principal">
+        <main>
+          <section class="tarjeta-equipo" id="zonaTurnoActual">
+            <h2 id="nombreEquipoTurno">Equipo</h2>
 
+            <div class="meta-equipo">
+              <div class="meta-item">
+                <span class="mini-etiqueta">Puntos</span>
+                <span id="puntosEquipoTurno">0</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Ronda</span>
+                <span id="rondaEquipoTurno">1/10</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Pregunta</span>
+                <span id="preguntaTurnoTexto">0/5</span>
+              </div>
+              <div class="meta-item">
+                <span class="mini-etiqueta">Tiempo</span>
+                <span id="tiempoPreguntaTexto">-</span>
+              </div>
+            </div>
+
+            <div class="fase-equipo" id="faseActualTexto">🎯 RETO</div>
+
+            <div class="badge" id="categoriaActual">General</div>
+
+            <div class="contenido-equipo" id="contenidoActual"></div>
+
+            <div class="barra-tiempo" id="contenedorBarraTiempo" style="display:none;">
+              <div class="barra-tiempo-interna" id="barraTiempoActual" style="width:100%;"></div>
+            </div>
+
+            <div id="botonesRespuesta" class="respuestas-equipo"></div>
+
+            <div id="botonesReto" class="acciones">
+              <button class="btn principal" onclick="superarReto()">✅ Reto superado</button>
+              <button class="btn secundario" onclick="cambiarRetoActual()">🔄 Cambiar reto</button>
+            </div>
+
+            <div id="comodinesBox" class="comodines-grid" style="display:none; margin-top:12px;">
+              <button class="btn comodin" onclick="usarDoblePuntuacion()">x2 Doble</button>
+              <button class="btn comodin" onclick="usarCongelarTiempo()">⏸ Congelar</button>
+              <button class="btn comodin" onclick="usarPasarPregunta()">⏭ Pasar</button>
+              <button class="btn comodin" onclick="usarRobarPuntos()">💥 Robar</button>
+            </div>
+
+            <div class="mensaje-equipo" id="mensajeTurno">Preparado</div>
+          </section>
+        </main>
+
+        <aside class="lateral">
+          <div class="bloque ranking-destacado">
+            <h3>🏆 Ranking</h3>
+            <div id="ranking"></div>
+          </div>
+
+          <div class="bloque">
+            <h3>📊 Estado de equipos</h3>
+            <div id="estadoGeneral"></div>
+          </div>
+
+          <div class="bloque">
+            <h3>🎁 Comodines</h3>
+            <div class="leyenda">
+              <div><span class="badge">x2</span> Doble puntuación</div>
+              <div><span class="badge">⏸</span> Congelar tiempo</div>
+              <div><span class="badge">⏭</span> Pasar pregunta</div>
+              <div><span class="badge">💥</span> Robar puntos</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel oculto panel-final-ultra" id="panelFinal">
+      <h2>🏁 CLASIFICACIÓN FINAL</h2>
+      <div id="ganadorFinal" class="ganador-final"></div>
+      <div id="podioFinal" class="podio"></div>
+
+      <div class="acciones">
+        <button class="btn principal grande" onclick="reiniciarJuego()">🔁 Nueva partida</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="datos.js"></script>
+  <script src="ruleta.js"></script>
+  <script src="sonidos.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
