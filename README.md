@@ -27,6 +27,7 @@ Juego educativo de primeros auxilios para ESO, con varios equipos jugando a la v
 - `ruleta.js` → selección aleatoria
 - `sonidos.js` → sonidos básicos
 - `script.js` → lógica completa del juego
+- `snake.js` → lógica y render del minijuego Snake clásico
 
 ## Uso
 
@@ -35,6 +36,14 @@ Juego educativo de primeros auxilios para ESO, con varios equipos jugando a la v
 3. Pulsa “Generar equipos”.
 4. Escribe los nombres.
 5. Pulsa “Empezar partida”.
+
+## Snake clásico
+
+- Abre `index.html` en el navegador.
+- En la pantalla inicial verás el panel `Snake clásico`.
+- Usa flechas o `WASD` para empezar y mover la serpiente.
+- En móvil puedes usar los botones táctiles.
+- `Reiniciar` crea una partida nueva y `Pausar` detiene o reanuda el avance.
 
 ## Personalización
 
