@@ -36,7 +36,7 @@
       <div class="barra-superior">
         <div class="info-box">
           <span class="etiqueta">⏱ Tiempo total</span>
-          <span id="tiempoTotal">15:00</span>
+          <span id="tiempoTotal">30:00</span>
         </div>
 
         <div class="info-box">
@@ -85,7 +85,7 @@
 
             <div class="contenido-equipo" id="contenidoActual"></div>
 
-            <div class="barra-tiempo" id="contenedorBarraTiempo" style="display:none;">
+            <div class="barra-tiempo" id="contenedorBarraTiempo">
               <div class="barra-tiempo-interna" id="barraTiempoActual" style="width:100%;"></div>
             </div>
 
@@ -97,10 +97,10 @@
             </div>
 
             <div id="comodinesBox" class="comodines-grid" style="display:none; margin-top:12px;">
-              <button class="btn comodin" onclick="usarDoblePuntuacion()">x2 Doble</button>
-              <button class="btn comodin" onclick="usarCongelarTiempo()">⏸ Congelar</button>
-              <button class="btn comodin" onclick="usarPasarPregunta()">⏭ Pasar</button>
-              <button class="btn comodin" onclick="usarRobarPuntos()">💥 Robar</button>
+              <button class="btn comodin comodin-x2" onclick="usarDoblePuntuacion()">x2 Doble</button>
+              <button class="btn comodin comodin-congelar" onclick="usarCongelarTiempo()">⏸ Congelar</button>
+              <button class="btn comodin comodin-pasar" onclick="usarPasarPregunta()">⏭ Pasar</button>
+              <button class="btn comodin comodin-cincuenta" onclick="usar50()">🎯 50%</button>
             </div>
 
             <div class="mensaje-equipo" id="mensajeTurno">Preparado</div>
@@ -124,7 +124,7 @@
               <div><span class="badge">x2</span> Doble puntuación</div>
               <div><span class="badge">⏸</span> Congelar tiempo</div>
               <div><span class="badge">⏭</span> Pasar pregunta</div>
-              <div><span class="badge">💥</span> Robar puntos</div>
+              <div><span class="badge">🎯</span> Eliminar 2 respuestas</div>
             </div>
           </div>
         </aside>
