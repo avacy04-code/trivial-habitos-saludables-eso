@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚑 Misión Primeros Auxilios · Versión 3.6 ULTRA</title>
+  <title>🚑 Misión Primeros Auxilios · 3.6 ULTRA FINAL</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,7 +12,7 @@
     <header class="cabecera hero">
       <div class="hero-overlay">
         <h1>🚑 MISIÓN PRIMEROS AUXILIOS</h1>
-        <p class="subtitulo">Versión 3.6 ULTRA · Turnos por equipo · 1 reto + 5 preguntas</p>
+        <p class="subtitulo">Versión 3.6 ULTRA FINAL · Turnos por equipo · 1 reto + 5 preguntas</p>
       </div>
     </header>
 
@@ -80,7 +80,6 @@
             </div>
 
             <div class="fase-equipo" id="faseActualTexto">🎯 RETO</div>
-
             <div class="badge" id="categoriaActual">General</div>
 
             <div class="contenido-equipo" id="contenidoActual"></div>
@@ -89,19 +88,27 @@
               <div class="barra-tiempo-interna" id="barraTiempoActual" style="width:100%;"></div>
             </div>
 
-            <div id="botonesRespuesta" class="respuestas-equipo"></div>
-
             <div id="botonesReto" class="acciones">
               <button class="btn principal" onclick="superarReto()">✅ Reto superado</button>
               <button class="btn secundario" onclick="cambiarRetoActual()">🔄 Cambiar reto</button>
             </div>
 
-            <div id="comodinesBox" class="comodines-grid" style="display:none; margin-top:12px;">
+            <div class="separador-juego">
+              <span>COMODINES</span>
+            </div>
+
+            <div id="comodinesBox" class="comodines-grid" style="display:none;">
               <button class="btn comodin comodin-x2" onclick="usarDoblePuntuacion()">x2 Doble</button>
               <button class="btn comodin comodin-congelar" onclick="usarCongelarTiempo()">⏸ Congelar</button>
               <button class="btn comodin comodin-pasar" onclick="usarPasarPregunta()">⏭ Pasar</button>
               <button class="btn comodin comodin-cincuenta" onclick="usar50()">🎯 50%</button>
             </div>
+
+            <div class="separador-juego" id="separadorRespuestas" style="display:none;">
+              <span>RESPUESTAS</span>
+            </div>
+
+            <div id="botonesRespuesta" class="respuestas-equipo"></div>
 
             <div class="mensaje-equipo" id="mensajeTurno">Preparado</div>
           </section>
@@ -135,6 +142,11 @@
       <h2>🏁 CLASIFICACIÓN FINAL</h2>
       <div id="ganadorFinal" class="ganador-final"></div>
       <div id="podioFinal" class="podio"></div>
+
+      <div class="informe-final">
+        <h3>📘 Informe final</h3>
+        <div id="resumenFinal"></div>
+      </div>
 
       <div class="acciones">
         <button class="btn principal grande" onclick="reiniciarJuego()">🔁 Nueva partida</button>
