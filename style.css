@@ -109,13 +109,35 @@ input {
   color: white;
 }
 
-.btn.comodin {
-  background: linear-gradient(135deg, #facc15, #eab308);
-  color: black;
-}
-
 .btn.grande {
   font-size: 18px;
+}
+
+.btn.comodin {
+  color: white;
+  border: 2px solid rgba(255,255,255,0.25);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.comodin-x2 {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.comodin-congelar {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.comodin-pasar {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.comodin-cincuenta {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+}
+
+.acciones {
+  text-align: center;
+  margin-top: 15px;
 }
 
 /* BARRA SUPERIOR */
@@ -162,6 +184,7 @@ input {
   display: grid;
   grid-template-columns: repeat(4,1fr);
   margin: 15px 0;
+  gap: 10px;
 }
 
 .meta-item {
@@ -218,13 +241,14 @@ input {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 /* COLORES RESPUESTAS */
-.rojo { background: #ef4444; }
-.azul { background: #3b82f6; }
+.rojo { background: #ef4444; color: white; }
+.azul { background: #3b82f6; color: white; }
 .amarillo { background: #facc15; color:black; }
-.verde { background: #22c55e; }
+.verde { background: #22c55e; color:white; }
 
 /* BARRA TIEMPO */
 .barra-tiempo {
@@ -245,6 +269,13 @@ input {
 .mensaje-equipo {
   margin-top: 15px;
   font-weight: bold;
+}
+
+/* COMODINES */
+.comodines-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 /* LATERAL */
@@ -274,6 +305,12 @@ input {
   margin: 5px 0;
 }
 
+/* EFECTO VISUAL DEL 50% */
+.respuesta-btn.oculta-50 {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .zona-principal {
@@ -288,7 +325,8 @@ input {
     grid-template-columns: 1fr 1fr;
   }
 
-  .respuestas-equipo {
+  .respuestas-equipo,
+  .comodines-grid {
     grid-template-columns: 1fr;
   }
 }
