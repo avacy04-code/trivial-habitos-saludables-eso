@@ -90,19 +90,13 @@
 
             <div id="botonesReto" class="acciones">
               <button class="btn principal" onclick="superarReto()">✅ Reto superado</button>
-              <button class="btn secundario" onclick="cambiarRetoActual()">🔄 Cambiar reto</button>
             </div>
 
             <div class="separador-juego">
               <span>COMODINES</span>
             </div>
 
-            <div id="comodinesBox" class="comodines-grid" style="display:none;">
-              <button class="btn comodin comodin-x2" onclick="usarDoblePuntuacion()">x2 Doble</button>
-              <button class="btn comodin comodin-congelar" onclick="usarCongelarTiempo()">⏸ Congelar</button>
-              <button class="btn comodin comodin-pasar" onclick="usarPasarPregunta()">⏭ Pasar</button>
-              <button class="btn comodin comodin-cincuenta" onclick="usar50()">🎯 50%</button>
-            </div>
+            <div id="comodinesBox" class="comodines-grid" style="display:none;"></div>
 
             <div class="separador-juego" id="separadorRespuestas" style="display:none;">
               <span>RESPUESTAS</span>
@@ -156,7 +150,6 @@
   </div>
 
   <script src="datos.js"></script>
-  <script src="ruleta.js"></script>
   <script src="sonidos.js"></script>
   <script src="script.js"></script>
 </body>
