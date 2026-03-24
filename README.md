@@ -26,6 +26,7 @@ Juego educativo de primeros auxilios para ESO, pensado para jugar por equipos en
 
 - **Reto superado:** +20 puntos
 - **Pregunta correcta:** +10 puntos
+- **Reto no superado por tiempo:** no suma puntos y se registra como reto no superado
 
 ## Comodines
 
@@ -43,12 +44,16 @@ Cada equipo dispone de estos comodines:
 - **🎯 50%**  
   Elimina dos respuestas incorrectas de la pregunta actual.
 
+Los comodines, una vez usados, desaparecen.
+
 ## Informe final
 
 Al final de la partida se muestra para cada equipo:
 
 - número de preguntas acertadas
 - número de preguntas falladas
+- número de retos superados
+- número de retos no superados
 - nota final de **0 a 10**
 
 La nota se calcula así:
@@ -60,7 +65,6 @@ La nota se calcula así:
 - `index.html` → estructura principal del juego
 - `style.css` → diseño visual de la aplicación
 - `datos.js` → configuración general, retos, preguntas y puntuaciones
-- `ruleta.js` → selección aleatoria de retos y preguntas
 - `sonidos.js` → sonidos del juego
 - `script.js` → lógica completa de turnos, puntuación, temporizadores y comodines
 - `README.md` → documentación del proyecto
@@ -95,7 +99,6 @@ Para que el proyecto funcione correctamente, deben estar en la misma carpeta:
 - `index.html`
 - `style.css`
 - `datos.js`
-- `ruleta.js`
 - `sonidos.js`
 - `script.js`
 
