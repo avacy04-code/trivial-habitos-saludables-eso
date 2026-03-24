@@ -12,7 +12,7 @@ Juego educativo de primeros auxilios para ESO, pensado para jugar por equipos en
 - Cuando termina un equipo, pasa al siguiente.
 - Cuando juegan todos los equipos, se completa una ronda.
 - La partida tiene un máximo de **10 rondas**.
-- Al final se muestra la clasificación general.
+- Al final se muestra la clasificación general y un informe de resultados.
 
 ## Mecánica actual
 
@@ -42,6 +42,18 @@ Cada equipo dispone de estos comodines:
 
 - **🎯 50%**  
   Elimina dos respuestas incorrectas de la pregunta actual.
+
+## Informe final
+
+Al final de la partida se muestra para cada equipo:
+
+- número de preguntas acertadas
+- número de preguntas falladas
+- nota final de **0 a 10**
+
+La nota se calcula así:
+
+- `nota = (aciertos / total de preguntas respondidas) × 10`
 
 ## Archivos
 
